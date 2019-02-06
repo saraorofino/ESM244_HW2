@@ -1,0 +1,40 @@
+---
+title: "ESM244 HW2"
+author: "Sara Orofino"
+date: "2/6/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#load packages
+library(tidyverse)
+
+# read in data 
+fish <- read_csv("fish_catch.csv")
+cetacean <- read_csv("captive_cetacean.csv")
+```
+
+#{.tabset}
+##Task 1
+
+###Data Visualization - Cetaceans in Captivity
+
+
+
+##Task 2 
+
+###Parameter Estimation - Wild Fish Catch 
+
+
+
+##Task 3 
+
+###Boostrapped Confidence Interval for Proportions 
+
+
+
+##Task 4
+
+###R-Studio Conference Talks 
