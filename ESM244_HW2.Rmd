@@ -21,6 +21,45 @@ cetacean <- read_csv("captive_cetacean.csv")
 
 ###Data Visualization - Cetaceans in Captivity
 
+```{r wrangle1, message=FAlSE, warning=FALSE}
+
+# look at captive births over the years by location  
+
+acq_data <- cetacean %>% 
+    filter(originLocation != "NA",
+           originLocation != "Unknown",
+           birthYear !="NA",
+           acquisition =="Born") %>% 
+  select(species, birthYear, originLocation) %>% 
+  group_by(originLocation, birthYear) %>% 
+  count()
+
+# Lots of locations... consider grouping the locations into states?
+# Need a list of the states for the locations:
+# California - Marineland of the Pacific, SeaWorld San Diego, Six Flags Discovery Kingdom  
+# Illinois - Brookfield Zoo, Shedd Aquarium  
+# Florida - Discovery Cove, Dolphin Connection, Dolphin Research Center, Dolphin Plus Bayside, Dolphin Plus Oceanside, Gulf Wolrd Marine Park, Gulfarium, Marineland Florida, Miami Sequarium, Theater of the Sea
+# International - Dolphin Quest Bermuda, Marineland Antibes, Marineland Canada, Sealand of the Pacific 
+# Hawaii - Dolphin Quest Hawaii, Kahala Hilton Oahu, Sea Life Park 
+# Georgia - Georgia Aquarium
+# Minnesota - Minnesota Zoo
+# Nevada - Mirage Dolphin Habitat
+# Indiana - Indianapolis Zoo 
+# Maryland - National Aquarium
+# Massachusetts - New England Aquarium 
+# Ohio - SeaWorld of Ohio, SeaWorld Aurora
+# Texas - SeaWorld San Antonio 
+# US Navy - U.S. Navy and U.S. Navy MMP 
+# Unsure - Dolphin Experience 
+```
+
+
+```{r}
+#stacked column graph 
+
+ggplot(acq_data, aes(x = birthYear, y = n , group = originLocation, fill = originLocation))+
+  geom_bar(stat = "identity")
+```
 
 
 ##Task 2 
