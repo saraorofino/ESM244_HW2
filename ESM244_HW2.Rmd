@@ -36,7 +36,7 @@ acq_data <- cetacean %>%
 
 # Lots of locations... consider grouping the locations into states?
 # Need a list of the states for the locations:
-# California - Marineland of the Pacific, SeaWorld San Diego, Six Flags Discovery Kingdom  
+# California - Marineland of the Pacific, SeaWorld San Diego, Six Flags Discovery Kingdom, Dolphin Experience  
 # Illinois - Brookfield Zoo, Shedd Aquarium  
 # Florida - Discovery Cove, Dolphin Connection, Dolphin Research Center, Dolphin Plus Bayside, Dolphin Plus Oceanside, Gulf Wolrd Marine Park, Gulfarium, Marineland Florida, Miami Sequarium, Theater of the Sea
 # International - Dolphin Quest Bermuda, Marineland Antibes, Marineland Canada, Sealand of the Pacific 
@@ -50,7 +50,18 @@ acq_data <- cetacean %>%
 # Ohio - SeaWorld of Ohio, SeaWorld Aurora
 # Texas - SeaWorld San Antonio 
 # US Navy - U.S. Navy and U.S. Navy MMP 
-# Unsure - Dolphin Experience 
+
+# Regions (According to US Census Bureau):
+# West - Marineland of the Pacific, SeaWorld San Diego, Six Flags Discovery Kingdom, Dolphin Experience, Dolphin Quest Hawaii, Kahala Hilton Oahu, Sea Life Park, 
+## West includes Hawaii, California, Nevada
+# South - Discovery Cove, Dolphin Connection, Dolphin Research Center, Dolphin Plus Bayside, Dolphin Plus Oceanside, Gulf Wolrd Marine Park, Gulfarium, Marineland Florida, Miami Sequarium, Theater of the Sea, SeaWorld San Antonio, Georgia Aquarium,  
+## South includes Florida, Texas, Georgia, 
+# Midwest - Minnesota Zoo, Indianapolis Zoo, Brookfield Zoo, Shedd Aquarium, SeaWorld of Ohio, SeaWorld Aurora 
+## Midwest includes Minnesota, Indiana, Ohio and Illinois 
+# Northeast - National Aquarium, New England Aquarium 
+## Northeast - Maryland and Massachusetts 
+# Military - U.S. Navy and U.S. Navy MMP 
+# International - Dolphin Quest Bermuda, Marineland Antibes, Marineland Canada, Sealand of the Pacific
 ```
 
 
