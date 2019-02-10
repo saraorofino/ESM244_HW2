@@ -11,6 +11,7 @@ output: html_document
 library(tidyverse)
 library(RColorBrewer)
 library(tinytex)
+library(boot)
 
 
 # read in data 
@@ -191,8 +192,90 @@ ggplot(fish_growth, aes(x = time, y = wild)) +
 
 ###Boostrapped Confidence Interval for Proportions 
 
+a. Bootstrapping
 
+```{r bootstrap, warning=FALSE, message=FALSE}
+
+# Goal: CI for proportion of nonbinary/genderqueer students experiencing exclusionary conduct
+
+# n = 36; 0=did not experience exclusionary conduct, 1= did experience exclusionary conduct 
+# Original data - 22 out of 36 did experience exclusionary conduct 
+
+# Create a vector of proportions to use for bootstrapping: 
+
+conduct <- c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+
+# Using the mean for the function will add up all the number but the number given will be the same as the number of 1s in the set; dividing by the total 36 will give the proportion of 1s
+
+# test using the mean to get the proportion with the conduct vector:
+mean(conduct)
+
+#Mean is 0.6111 and the proportion is 61% - matches the given in the UCSB dataset
+
+# Create a function using mean() to estimate the proportion of "1"s:
+
+proportion_fun <- function(x,i) {mean(x[i])}
+
+# Bootstrapping with 10,000:
+boot_10000<-boot(conduct, proportion_fun, R=10000)
+
+# Bootstrap with 100,000:
+boot_100000<-boot(conduct, proportion_fun, R=100000)
+
+#Bias decresaed but standard error isn't changing much
+
+
+```
+
+b. Histogram of Boostrapped Samples:
+
+```{r histogram, message=FALSE, warning = FALSE}
+
+ggplot() +
+  aes(boot_100000$t) +
+  geom_histogram()
+
+```
+
+c. Confidence Interval Statement:  
+
+```{r boostrap_ci, include=FALSE}
+
+boot.ci(boot_100000, conf = 0.95)
+
+# Percentile CI (0.4444, 0.7778)
+```
+
+
+With repeated sampling (n=36), we would expect the proportion of UCSB students identifying as nonbinary or genderqueer who experience exclusionary, hostile, or intimidating conduct to fall between 44.4% and 77.8%.   
 
 ##Task 4
 
 ###R-Studio Conference Talks 
+
+
+######Talk 1:  
+
+Title - Visualizing uncertainty with hypothetical outcome plots   
+Speaker - Claus Wilke 
+* Bullet 1  
+* Bullet 2  
+Question:  
+https://resources.rstudio.com/rstudio-conf-2019/visualizing-uncertainty-with-hypothetical-outcomes-plots 
+
+######Talk 2:
+Title -  Spatial data science in the Tidyverse  
+Speaker - Edzer Pebesma 
+* Bullet 1  
+* Bullet 2   
+Question:  
+https://resources.rstudio.com/rstudio-conf-2019/spatial-data-science-in-the-tidyverse 
+
+
+######Talk 3:
+Title - Cultivating creativity in data work   
+Speaker - Hilary Parker  
+* Bullet 1  
+* Bullet 2  
+Question:  
+https://resources.rstudio.com/rstudio-conf-2019/cultivating-creativity-in-data-work 
