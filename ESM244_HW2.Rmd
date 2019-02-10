@@ -5,15 +5,16 @@ date: "2/6/2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 
 #load packages
 library(tidyverse)
 library(RColorBrewer)
-library(captioner)
+library(tinytex)
+
 
 # read in data 
-fish <- read_csv("fish_catch.csv")
+fish <- read_csv("fish_catch_clean.csv")
 cetacean <- read_csv("captive_cetacean_regions.csv")
 ```
 
@@ -80,23 +81,109 @@ a. Exploratory Graph of wild catch over time:
   
 ```{r exploratory_graph, echo=FALSE}
 
+colnames(fish) <- c("year", "wild", "farmed", "total") 
+
+fish_growth <- fish %>% 
+  mutate(time = 0:62) %>% 
+  select(time, wild)
+  
+  
+  
+ggplot(fish_growth, aes(x=time, y=wild)) +
+  geom_point() + 
+  scale_y_continuous(limits = c(0,100), breaks = seq(0,100, by =20))
+
 
 ```
 
 b. What type of relationship describes the trend?  
 
+The graph depicts logistic growth.  
+
 Mathematically:    
 
+$N_t = \left(\frac{A}{1 + \beta e^{-rt}}\right)$  
 
 Initial Parameter estimates:  
 
+Find estimates for logistic growth (A, B and r):
 
-c. Model Parameters using Nonlinear Least Squares:  
+Carrying Capacity (A) from the exploratory graph above:  
+A = 90 million tons
 
+If $N_0 = 17$ million tons estimate $\beta$:      
+$\beta = \frac{(K - N_0)}{N_0}$   
+$\beta = \frac{(90-17)}{17} = 4.294$  
+
+```{r estimate_b}
+
+Bestimate <- (90-17)/17
+```
+
+Estimate r:
+
+$r = 0.06648$   
+
+```{r estimate_r}
+
+lag_phase <- fish_growth %>% 
+  filter(time < 19, time > 14)
+  
+ggplot(lag_phase, aes(x= time, y = log(wild))) +
+  geom_point()
+  
+lm(log(wild) ~ time, data = lag_phase)
+
+#r=0.006648
+```
+
+c. Model Parameters using Nonlinear Least Squares:   
+
+```{r}
+
+fish_fit <- nls(wild ~ A/(1+B*exp(-r*time)),
+                start = list(A = 90, B = 4.29, r = 0.06648),
+                data = fish_growth, 
+                trace = TRUE)
+fish_fit
+# store coefficients for final graph:
+
+A <- coef(fish_fit)[1]
+B <- coef(fish_fit)[2]
+r <- coef(fish_fit)[3]
+```
+Carrying Capacity (A):  
+$A = 100.28$ million tons   
+
+($\beta$):  
+$\beta =  4.316$   
+
+Growth Rate (r):  
+$r = 0.06989$    
 
 d. Finalized Graph:  
   
 ```{r final_graph, message=FALSE, warning=FALSE}
+
+# Create a new sequence of time values to make predictions and model it: 
+
+time_seq <- seq(0,70, length=100) 
+
+fish_pred <- A/(1+B*exp(-r*time_seq))
+
+# Bind with time sequence data:
+
+pred_df <- data.frame(time_seq, fish_pred)
+
+#Final graph: 
+
+ggplot(fish_growth, aes(x = time, y = wild)) +
+  geom_point(color = "slategray", size = 2, alpha = 0.7) +
+  geom_line(data = pred_df, aes(x = time_seq, y = fish_pred), color = "midnightblue", size = 1) + 
+  scale_x_continuous(expand = c(0,0.5), limits = c(0,70), breaks = seq(0,70, by = 10)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
+  labs(x = "Time \n(Time 0 = 1950)", y = "Wild Fish Catch (Million Tons)") +
+  theme_bw() 
 
 ```
 
