@@ -12,7 +12,7 @@ library(tidyverse)
 library(RColorBrewer)
 library(tinytex)
 library(boot)
-
+library(beyonce)
 
 # read in data 
 fish <- read_csv("fish_catch_clean.csv")
@@ -52,14 +52,16 @@ acq_data <- cetacean %>%
 
 
 ```{r}
+
 #stacked column graph 
 
 ggplot(acq_data, aes(x = birthYear, y = n , group = us_regions, fill = us_regions))+
   geom_bar(stat = "identity") + 
   scale_y_continuous(expand = c(0,0), limits = c(0,31), breaks = seq(0,30, by = 5)) + 
   scale_x_discrete(expand = c(0,0)) + 
-  scale_fill_discrete(labels = c("International", "U.S. Midwest", "U.S. Military",
-                                 "U.S. Northeast", "U.S. South", "Unknown", "U.S. West")) +
+  scale_fill_manual(values = beyonce_palette(74),
+                    labels = c("International", "U.S. Midwest", "U.S. Military",
+                                 "U.S. Northeast", "U.S. South", "U.S. West","Unknown")) +
   theme_classic()+
   guides(fill=guide_legend(title="Region of Origin")) +
   labs(y = "Number of Cetaceans",
