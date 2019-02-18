@@ -264,25 +264,26 @@ With repeated sampling (n=36), we would expect the proportion of UCSB students i
 ######Talk 1:  
 
 Title - Visualizing uncertainty with hypothetical outcome plots   
-Speaker - Claus Wilke 
-* Bullet 1  
-* Bullet 2  
-Question:  
-https://resources.rstudio.com/rstudio-conf-2019/visualizing-uncertainty-with-hypothetical-outcomes-plots 
+Speaker - Claus Wilke   
+* A hypothetical outcome plot is a way to represent variations in the data by representing various hypothetical outcomes all at once.   
+* Created the ungeviz package which allows for inclusion of bootstrapped samples within geom_smooth, can be paired with gganimate to animate the uncertainty curve.   
+
+Question: Is there a way to make boostrapped samples reproducible using boostrapper within ggplot?      
 
 ######Talk 2:
 Title -  Spatial data science in the Tidyverse  
 Speaker - Edzer Pebesma 
-* Bullet 1  
-* Bullet 2   
-Question:  
-https://resources.rstudio.com/rstudio-conf-2019/spatial-data-science-in-the-tidyverse 
+* Stars package extends spatial tables into raster and vector data cubes.   
+* Raster data cubes have x and y spatial dimensions whereas vector data cubes have a set of feature geometries with at least one dimension.       
+  
+Question: Is there a way to animate changes in time dependent spatial data?    
 
 
 ######Talk 3:
 Title - Cultivating creativity in data work   
 Speaker - Hilary Parker  
-* Bullet 1  
-* Bullet 2  
-Question:  
-https://resources.rstudio.com/rstudio-conf-2019/cultivating-creativity-in-data-work 
+* Much of data science in the past has focused on the process of tidying data and bringing into usable formats, but hasn't focused as much on the actual data collection. Stepping back to think about the process of data collection can facilitate new lines of investigation.       
+* Stich Fix implemented a "Style Shuffle" visual rating tool to their app in order to gather more data points per individual allow for enhanced analysis of personal style choices.   
+
+Question: What are some factors that we can consider when trying to develop research questions that are more amenable to design thinking?       
+ 
